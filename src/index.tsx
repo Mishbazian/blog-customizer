@@ -8,6 +8,7 @@ import { defaultArticleState } from './constants/articleProps';
 
 import './styles/index.scss';
 import styles from './styles/index.module.scss';
+import { Text } from './ui/text';
 
 const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
@@ -34,7 +35,13 @@ const App = () => {
 				onReset={(e) => {
 					e.preventDefault();
 					alert('clear');
-				}}></ArticleParamsForm>
+				}}>
+				<>
+					<Text as={'h2'} size={31} weight={800} uppercase>
+						задайте параметры
+					</Text>
+				</>
+			</ArticleParamsForm>
 			<Article />
 		</main>
 	);
