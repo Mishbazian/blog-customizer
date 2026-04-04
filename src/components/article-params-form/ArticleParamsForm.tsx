@@ -2,7 +2,7 @@ import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 
 import styles from './ArticleParamsForm.module.scss';
-import { FormEventHandler, ReactNode, useRef, useState } from 'react';
+import { FormEventHandler, ReactNode, useRef } from 'react';
 import clsx from 'clsx';
 import { useOutsideClickClose } from 'src/common/hooks/useOutsideClickClose';
 
@@ -11,16 +11,24 @@ export type TArticleParamsFormProps = {
 	children?: ReactNode;
 	onSubmit: FormEventHandler<HTMLFormElement>;
 	onReset: FormEventHandler<HTMLFormElement>;
+	onChange: (isOpen: boolean) => void;
 };
 
-export const ArticleParamsForm = (props: TArticleParamsFormProps) => {
-	const [isOpen, setIsOpen] = useState<boolean>(props.isOpen);
-	const onArrowBtnClick = () => setIsOpen(!isOpen);
+export const ArticleParamsForm = ({
+	isOpen,
+	children,
+	onSubmit,
+	onReset,
+	onChange,
+}: TArticleParamsFormProps) => {
+	const onArrowBtnClick = () => {
+		onChange(!isOpen);
+	};
 	const rootRef = useRef<HTMLDivElement>(null);
 	useOutsideClickClose({
 		isOpen,
 		rootRef,
-		onChange: setIsOpen,
+		onChange: onChange,
 	});
 	return (
 		<>
@@ -30,11 +38,8 @@ export const ArticleParamsForm = (props: TArticleParamsFormProps) => {
 					[styles.container_open]: isOpen,
 				})}
 				ref={rootRef}>
-				<form
-					className={styles.form}
-					onSubmit={props.onSubmit}
-					onReset={props.onReset}>
-					{props.children}
+				<form className={styles.form} onSubmit={onSubmit} onReset={onReset}>
+					{children}
 					<div className={styles.bottomContainer}>
 						<Button title='Сбросить' htmlType='reset' type='clear' />
 						<Button title='Применить' htmlType='submit' type='apply' />
