@@ -25,7 +25,16 @@ const App = () => {
 					'--bg-color': defaultArticleState.backgroundColor.value,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm />
+			<ArticleParamsForm
+				isOpen={false}
+				onSubmit={(e) => {
+					e.preventDefault();
+					alert('submit');
+				}}
+				onReset={(e) => {
+					e.preventDefault();
+					alert('clear');
+				}}></ArticleParamsForm>
 			<Article />
 		</main>
 	);
