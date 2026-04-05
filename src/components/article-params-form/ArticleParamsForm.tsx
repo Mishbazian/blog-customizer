@@ -22,12 +22,12 @@ export const ArticleParamsForm = ({
 	onReset,
 	onClose,
 }: TArticleParamsFormProps) => {
-	const { isOpen, toggle } = useDisclosure(initialState, { onClose });
+	const { isOpen, toggle, close } = useDisclosure(initialState, { onClose });
 	const rootRef = useRef<HTMLDivElement>(null);
 	useOutsideClickClose({
 		isOpen,
 		rootRef,
-		onChange: toggle,
+		onChange: close,
 	});
 
 	return (
