@@ -5,34 +5,34 @@ import styles from './ArticleParamsForm.module.scss';
 import { FormEventHandler, ReactNode, useRef } from 'react';
 import clsx from 'clsx';
 import { useOutsideClickClose } from 'src/common/hooks/useOutsideClickClose';
+import { useDisclosure } from 'src/common/hooks/useDisclosure';
 
 export type TArticleParamsFormProps = {
-	isOpen: boolean;
+	initialState?: boolean;
 	children?: ReactNode;
 	onSubmit: FormEventHandler<HTMLFormElement>;
 	onReset: FormEventHandler<HTMLFormElement>;
-	onChange: (isOpen: boolean) => void;
+	onClose?: () => void;
 };
 
 export const ArticleParamsForm = ({
-	isOpen,
+	initialState,
 	children,
 	onSubmit,
 	onReset,
-	onChange,
+	onClose,
 }: TArticleParamsFormProps) => {
-	const onArrowBtnClick = () => {
-		onChange(!isOpen);
-	};
+	const { isOpen, toggle } = useDisclosure(initialState, { onClose });
 	const rootRef = useRef<HTMLDivElement>(null);
 	useOutsideClickClose({
 		isOpen,
 		rootRef,
-		onChange: onChange,
+		onChange: toggle,
 	});
+
 	return (
 		<>
-			<ArrowButton isOpen={isOpen} onClick={onArrowBtnClick} />
+			<ArrowButton isOpen={isOpen} onClick={toggle} />
 			<aside
 				className={clsx(styles.container, {
 					[styles.container_open]: isOpen,

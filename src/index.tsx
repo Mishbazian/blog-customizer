@@ -30,8 +30,6 @@ const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
 const App = () => {
-	const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
-
 	const [articleStyles, setArticleStyles] =
 		useState<TArticleStylesSheet>(defaultArticleStyles);
 
@@ -68,8 +66,7 @@ const App = () => {
 	return (
 		<main className={clsx(styles.main)} style={articleStyles as CSSProperties}>
 			<ArticleParamsForm
-				isOpen={isFormOpen}
-				onChange={(isOpen: boolean) => setIsFormOpen(isOpen)}
+				initialState={false}
 				onSubmit={handleSubmit}
 				onReset={handleReset}>
 				<>
