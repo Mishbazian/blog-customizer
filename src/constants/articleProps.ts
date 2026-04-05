@@ -177,3 +177,33 @@ export const defaultArticleState = {
 };
 
 export type ArticleStateType = typeof defaultArticleState;
+/** Переменные стилей управляемые формой */
+export type TArticleStylesProperties =
+	| '--font-family'
+	| '--font-size'
+	| '--font-color'
+	| '--container-width'
+	| '--bg-color';
+
+/** Объект для задания стилей  */
+export type TArticleStylesSheet = Record<TArticleStylesProperties, string>;
+/** Дефолтные значения переменных стилей статьи */
+export const defaultArticleStyles: TArticleStylesSheet = {
+	'--font-family': defaultArticleState.fontFamilyOption.value,
+	'--font-size': defaultArticleState.fontSizeOption.value,
+	'--font-color': defaultArticleState.fontColor.value,
+	'--container-width': defaultArticleState.contentWidth.value,
+	'--bg-color': defaultArticleState.backgroundColor.value,
+};
+
+/** Константа для приведения переменных стилей и массивов соответствующих им опций в форме */
+export const stylesOptionsMap: Record<
+	TArticleStylesProperties,
+	keyof ArticleStateType
+> = {
+	'--font-family': 'fontFamilyOption',
+	'--font-size': 'fontSizeOption',
+	'--font-color': 'fontColor',
+	'--container-width': 'contentWidth',
+	'--bg-color': 'backgroundColor',
+};

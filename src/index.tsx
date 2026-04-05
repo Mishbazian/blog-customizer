@@ -7,12 +7,16 @@ import { ArticleParamsForm } from './components/article-params-form/ArticleParam
 import {
 	ArticleStateType,
 	OptionType,
+	TArticleStylesProperties,
+	TArticleStylesSheet,
 	backgroundColors,
 	contentWidthArr,
 	defaultArticleState,
+	defaultArticleStyles,
 	fontColors,
 	fontFamilyOptions,
 	fontSizeOptions,
+	stylesOptionsMap,
 } from './constants/articleProps';
 
 import './styles/index.scss';
@@ -26,34 +30,6 @@ const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
 const App = () => {
-	//@todo вынести типы и константы в constants
-	const defaultArticleStyles: TArticleStylesSheet = {
-		'--font-family': defaultArticleState.fontFamilyOption.value,
-		'--font-size': defaultArticleState.fontSizeOption.value,
-		'--font-color': defaultArticleState.fontColor.value,
-		'--container-width': defaultArticleState.contentWidth.value,
-		'--bg-color': defaultArticleState.backgroundColor.value,
-	};
-	type TArticleStylesProperties =
-		| '--font-family'
-		| '--font-size'
-		| '--font-color'
-		| '--container-width'
-		| '--bg-color';
-
-	type TArticleStylesSheet = Record<TArticleStylesProperties, string>;
-
-	const stylesOptionsMap: Record<
-		TArticleStylesProperties,
-		keyof ArticleStateType
-	> = {
-		'--font-family': 'fontFamilyOption',
-		'--font-size': 'fontSizeOption',
-		'--font-color': 'fontColor',
-		'--container-width': 'contentWidth',
-		'--bg-color': 'backgroundColor',
-	};
-
 	const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
 
 	const [articleStyles, setArticleStyles] =
