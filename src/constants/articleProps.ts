@@ -177,6 +177,7 @@ export const defaultArticleState = {
 };
 
 export type ArticleStateType = typeof defaultArticleState;
+
 /** Переменные стилей управляемые формой */
 export type TArticleStylesProperties =
 	| '--font-family'
@@ -187,6 +188,7 @@ export type TArticleStylesProperties =
 
 /** Объект для задания стилей  */
 export type TArticleStylesSheet = Record<TArticleStylesProperties, string>;
+
 /** Дефолтные значения переменных стилей статьи */
 export const defaultArticleStyles: TArticleStylesSheet = {
 	'--font-family': defaultArticleState.fontFamilyOption.value,
@@ -196,14 +198,37 @@ export const defaultArticleStyles: TArticleStylesSheet = {
 	'--bg-color': defaultArticleState.backgroundColor.value,
 };
 
-/** Константа для приведения переменных стилей и массивов соответствующих им опций в форме */
-export const stylesOptionsMap: Record<
-	TArticleStylesProperties,
-	keyof ArticleStateType
-> = {
-	'--font-family': 'fontFamilyOption',
-	'--font-size': 'fontSizeOption',
-	'--font-color': 'fontColor',
-	'--container-width': 'contentWidth',
-	'--bg-color': 'backgroundColor',
+/** Тип объекта определяющего соответствия атрибута стилей и массивов опций в параметрах настройки Статьи */
+export type TStylesProperty = {
+	name: keyof ArticleStateType;
+	property: TArticleStylesProperties;
+	options: OptionType[];
 };
+
+/** Массив объектов оответствия атрибута стилей и массивов опций в параметрах настройки Статьи*/
+export type PropertyMap = TStylesProperty[];
+
+/** Константа соответствия атрибутов стилей и массивов опций в параметрах настройки Статьи */
+export const articleStylesPropertyMap: PropertyMap = [
+	{
+		name: 'fontFamilyOption',
+		property: '--font-family',
+		options: fontFamilyOptions,
+	},
+	{
+		name: 'fontSizeOption',
+		property: '--font-size',
+		options: fontSizeOptions,
+	},
+	{ name: 'fontColor', property: '--font-color', options: fontColors },
+	{
+		name: 'backgroundColor',
+		property: '--bg-color',
+		options: backgroundColors,
+	},
+	{
+		name: 'contentWidth',
+		property: '--container-width',
+		options: contentWidthArr,
+	},
+];
