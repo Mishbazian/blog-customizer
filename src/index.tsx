@@ -7,14 +7,20 @@ import { ArticleParamsForm } from './components/article-params-form/ArticleParam
 import {
 	ArticleStateType,
 	OptionType,
+	backgroundColors,
+	contentWidthArr,
 	defaultArticleState,
+	fontColors,
 	fontFamilyOptions,
+	fontSizeOptions,
 } from './constants/articleProps';
 
 import './styles/index.scss';
 import styles from './styles/index.module.scss';
 import { Select } from './ui/select';
 import { Text } from './ui/text';
+import { RadioGroup } from './ui/radio-group';
+import { Separator } from './ui/separator';
 
 const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
@@ -100,7 +106,32 @@ const App = () => {
 						selected={formParamsState.fontFamilyOption}
 						onChange={handleChange('fontFamilyOption')}
 					/>
-					{/* @todo добавить остальные поля настройки параметров */}
+					<RadioGroup
+						name={'fontSizeOptions'}
+						title={'размер шрифта'}
+						options={fontSizeOptions}
+						selected={formParamsState.fontSizeOption}
+						onChange={handleChange('fontSizeOption')}
+					/>
+					<Select
+						title={'цвет шрифта'}
+						options={fontColors}
+						selected={formParamsState.fontColor}
+						onChange={handleChange('fontColor')}
+					/>
+					<Separator />
+					<Select
+						title={'цвет фона'}
+						options={backgroundColors}
+						selected={formParamsState.backgroundColor}
+						onChange={handleChange('backgroundColor')}
+					/>
+					<Select
+						title={'ширина контента'}
+						options={contentWidthArr}
+						selected={formParamsState.contentWidth}
+						onChange={handleChange('contentWidth')}
+					/>
 				</>
 			</ArticleParamsForm>
 			<Article />
