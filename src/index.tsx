@@ -36,16 +36,16 @@ const App = () => {
 	const [formParamsState, setFormParamsState] =
 		useState<ArticleStateType>(defaultArticleState);
 
-	//@todo написать хук на изменение состояния формы
-	// useEffect(() => {}, [isFormOpen]);
-
-	const handleChange = (property: keyof ArticleStateType) => {
+	const handleChangeField = (property: keyof ArticleStateType) => {
 		return (option: OptionType) => {
 			setFormParamsState({ ...formParamsState, [`${property}`]: option });
 		};
 	};
 
-	const handleReset = () => setArticleStyles(defaultArticleStyles);
+	const handleFormReset = () => {
+		setArticleStyles(defaultArticleStyles);
+		setFormParamsState(defaultArticleState);
+	};
 
 	//@todo вынести функцию в utils
 	const getUpdatedStyles = (): TArticleStylesSheet => {
@@ -58,7 +58,7 @@ const App = () => {
 			{ ...articleStyles }
 		);
 	};
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setArticleStyles(getUpdatedStyles());
 	};
@@ -67,8 +67,8 @@ const App = () => {
 		<main className={clsx(styles.main)} style={articleStyles as CSSProperties}>
 			<ArticleParamsForm
 				initialState={false}
-				onSubmit={handleSubmit}
-				onReset={handleReset}>
+				onSubmit={handleFormSubmit}
+				onReset={handleFormReset}>
 				<>
 					<Text as={'h2'} size={31} weight={800} uppercase>
 						задайте параметры
@@ -77,33 +77,33 @@ const App = () => {
 						title={'Шрифт'}
 						options={fontFamilyOptions}
 						selected={formParamsState.fontFamilyOption}
-						onChange={handleChange('fontFamilyOption')}
+						onChange={handleChangeField('fontFamilyOption')}
 					/>
 					<RadioGroup
 						name={'fontSizeOptions'}
 						title={'размер шрифта'}
 						options={fontSizeOptions}
 						selected={formParamsState.fontSizeOption}
-						onChange={handleChange('fontSizeOption')}
+						onChange={handleChangeField('fontSizeOption')}
 					/>
 					<Select
 						title={'цвет шрифта'}
 						options={fontColors}
 						selected={formParamsState.fontColor}
-						onChange={handleChange('fontColor')}
+						onChange={handleChangeField('fontColor')}
 					/>
 					<Separator />
 					<Select
 						title={'цвет фона'}
 						options={backgroundColors}
 						selected={formParamsState.backgroundColor}
-						onChange={handleChange('backgroundColor')}
+						onChange={handleChangeField('backgroundColor')}
 					/>
 					<Select
 						title={'ширина контента'}
 						options={contentWidthArr}
 						selected={formParamsState.contentWidth}
-						onChange={handleChange('contentWidth')}
+						onChange={handleChangeField('contentWidth')}
 					/>
 				</>
 			</ArticleParamsForm>
