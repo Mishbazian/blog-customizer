@@ -4,7 +4,7 @@ import { Option } from './Option';
 
 import styles from './RadioGroup.module.scss';
 
-type RadioGroupProps = {
+export type RadioGroupProps = {
 	name: string;
 	options: OptionType[];
 	selected: OptionType;
