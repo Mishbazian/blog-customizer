@@ -37,12 +37,14 @@ const App = () => {
 		onSubmit: applyStyles,
 		onReset: resetStyles,
 	});
-	/** Массив сгруппированных по признаку group данные полей формы */
-	const fieldGroups: ElementsGroup = articleParamsMap.reduce((acc, item) => {
-		if (!acc[item.group]) acc[item.group] = [];
-		acc[item.group].push(item);
-		return acc;
-	}, {} as ElementsGroup);
+	/** Массив  отсортированных и сгруппированных по признаку group данных полей формы */
+	const fieldGroups: ElementsGroup = articleParamsMap
+		.sort((a, b) => a.sort - b.sort)
+		.reduce((acc, item) => {
+			if (!acc[item.group]) acc[item.group] = [];
+			acc[item.group].push(item);
+			return acc;
+		}, {} as ElementsGroup);
 
 	return (
 		<main className={clsx(styles.main)} style={articleStyles as CSSProperties}>
@@ -55,21 +57,19 @@ const App = () => {
 				{(group, index) => (
 					<>
 						{index > 0 && <Separator />}
-						{group
-							.sort((a, b) => a.sort - b.sort)
-							.map((element) => {
-								const Component = element.type;
-								return (
-									<Component
-										key={element.name}
-										title={element.title}
-										options={element.options}
-										selected={formParamsState[element.name]}
-										name={element.name}
-										onChange={onFieldChange(element.name)}
-									/>
-								);
-							})}
+						{group.map((element) => {
+							const Component = element.type;
+							return (
+								<Component
+									key={element.name}
+									title={element.title}
+									options={element.options}
+									selected={formParamsState[element.name]}
+									name={element.name}
+									onChange={onFieldChange(element.name)}
+								/>
+							);
+						})}
 					</>
 				)}
 			</ArticleParamsForm>
