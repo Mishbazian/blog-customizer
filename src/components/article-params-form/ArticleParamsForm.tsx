@@ -2,7 +2,7 @@ import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 
 import styles from './ArticleParamsForm.module.scss';
-import { FormEvent, ReactNode, useRef } from 'react';
+import { CSSProperties, FormEvent, ReactNode, useRef } from 'react';
 import clsx from 'clsx';
 import { useOutsideClickClose } from 'src/common/hooks/useOutsideClickClose';
 import { useDisclosure } from 'src/common/hooks/useDisclosure';
@@ -16,6 +16,7 @@ export type TArticleParamsFormProps<T> = {
 	onSubmit: (e: FormEvent<HTMLFormElement>) => void;
 	onReset: (e: FormEvent<HTMLFormElement>) => void;
 	onClose: () => void;
+	formStyles?: CSSProperties;
 };
 
 export const ArticleParamsForm = <T,>({
@@ -26,6 +27,7 @@ export const ArticleParamsForm = <T,>({
 	onSubmit,
 	onReset,
 	onClose,
+	formStyles,
 }: TArticleParamsFormProps<T>) => {
 	const { isOpen, toggle, change } = useDisclosure(initialOpen, {
 		onClose,
@@ -45,7 +47,11 @@ export const ArticleParamsForm = <T,>({
 					[styles.container_open]: isOpen,
 				})}
 				ref={rootRef}>
-				<form className={styles.form} onSubmit={onSubmit} onReset={onReset}>
+				<form
+					className={styles.form}
+					onSubmit={onSubmit}
+					onReset={onReset}
+					style={formStyles}>
 					<Text as={'h2'} size={31} weight={800} uppercase>
 						{title}
 					</Text>

@@ -46,6 +46,8 @@ const App = () => {
 			return acc;
 		}, {} as ElementsGroup);
 
+	const additionalFormStyles = { gap: 50 };
+
 	return (
 		<main className={clsx(styles.main)} style={articleStyles as CSSProperties}>
 			<ArticleParamsForm
@@ -53,7 +55,8 @@ const App = () => {
 				fields={[fieldGroups.top, fieldGroups.bottom]}
 				onSubmit={onFormSubmit}
 				onReset={onFormReset}
-				onClose={onFormClose}>
+				onClose={onFormClose}
+				formStyles={additionalFormStyles}>
 				{(group, index) => (
 					<>
 						{index > 0 && <Separator />}
