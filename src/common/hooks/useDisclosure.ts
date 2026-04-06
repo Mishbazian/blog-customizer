@@ -25,11 +25,17 @@ export function useDisclosure(
 			close();
 		}
 	};
+	const change = (newValue: boolean) => {
+		if (newValue !== isOpen) {
+			setIsOpen(newValue);
+			(newValue && open()) || close();
+		}
+	};
 	useEffect(() => {
 		if (initialState !== state) {
 			setState(initialState);
 		}
 	}, [initialState]);
 
-	return { isOpen, toggle, open, close };
+	return { isOpen, toggle, open, close, change };
 }
