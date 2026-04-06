@@ -1,12 +1,13 @@
 import { createRoot } from 'react-dom/client';
-import { StrictMode, CSSProperties, useState } from 'react';
+import { StrictMode, CSSProperties } from 'react';
 import clsx from 'clsx';
 
 import { Article } from './components/article/Article';
 import { ArticleParamsForm } from './components/article-params-form/ArticleParamsForm';
+import { Separator } from './ui/separator';
+
 import {
 	ElementsGroup,
-	TArticleStylesSheet,
 	articleParamsFormTitle,
 	articleParamsMap,
 	defaultArticleStyles,
@@ -15,26 +16,15 @@ import {
 import './styles/index.scss';
 import styles from './styles/index.module.scss';
 import { useFormFields } from './components/article-params-form/hooks/useFormFields';
-import { Separator } from './ui/separator';
+import { useArticleStyles } from './components/article/hooks/useArticleStyles';
 
 const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
 const App = () => {
-	/** Хук состояния стилей статьи */
-	const [articleStyles, setArticleStyles] =
-		useState<TArticleStylesSheet>(defaultArticleStyles);
-
-	/**Коллбэк для сoбытия reset формы
-	 * Сбрасывает сщстояния формы и стилей к дефолтным значениям */
-	const handleReset = () => {
-		setArticleStyles(defaultArticleStyles);
-	};
-
-	/** Коллбэк для события submit формы
-	 * устанавливает стили полученные из состояния формы в состояние стилей статьи */
-	const handleSubmit = (styles: TArticleStylesSheet) =>
-		setArticleStyles(styles);
+	/** Хук, управляющий состоянием стилей статьи */
+	const { articleStyles, resetStyles, applyStyles } =
+		useArticleStyles(defaultArticleStyles);
 
 	/** Хук управляющий состоянием полей формы */
 	const {
@@ -44,10 +34,10 @@ const App = () => {
 		onFormSubmit,
 		onFormReset,
 	} = useFormFields(articleStyles, articleParamsMap, {
-		onSubmit: handleSubmit,
-		onReset: handleReset,
+		onSubmit: applyStyles,
+		onReset: resetStyles,
 	});
-
+	/** Массив сгруппированных по признаку group данные полей формы */
 	const fieldGroups: ElementsGroup = articleParamsMap.reduce((acc, item) => {
 		if (!acc[item.group]) acc[item.group] = [];
 		acc[item.group].push(item);
