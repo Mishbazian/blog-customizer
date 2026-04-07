@@ -2,36 +2,41 @@ import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 
 import styles from './ArticleParamsForm.module.scss';
-import { CSSProperties, FormEvent, ReactNode, useRef } from 'react';
+import { Fragment, useRef } from 'react';
 import clsx from 'clsx';
 import { useOutsideClickClose } from 'src/common/hooks/useOutsideClickClose';
 import { useDisclosure } from 'src/common/hooks/useDisclosure';
 import { Text } from 'src/ui/text';
+import { Separator } from 'src/ui/separator';
+import {
+	ArticleStateType,
+	articleParamsFormTitle,
+	articleParamsMap,
+} from 'src/constants/articleProps';
+import { useForm } from '../../common/hooks/useForm';
 
-export type TArticleParamsFormProps<T> = {
-	title: string;
-	fields: T[];
-	children: (item: T, index: number) => ReactNode;
+export type TArticleParamsFormProps = {
 	initialOpen?: boolean;
-	onSubmit: (e: FormEvent<HTMLFormElement>) => void;
-	onReset: (e: FormEvent<HTMLFormElement>) => void;
-	onClose: () => void;
-	formStyles?: CSSProperties;
+	currentParams: ArticleStateType;
+	applyParams: (params: ArticleStateType) => void;
 };
 
-export const ArticleParamsForm = <T,>({
-	title,
-	fields,
-	children,
-	initialOpen = false,
-	onSubmit,
-	onReset,
-	onClose,
-	formStyles,
-}: TArticleParamsFormProps<T>) => {
+export const ArticleParamsForm = (props: TArticleParamsFormProps) => {
+	const { initialOpen = false, currentParams, applyParams } = props;
+	const formStyles = { gap: 50 };
+
+	const {
+		selectedParams,
+		handleChange,
+		handleCancel,
+		handleReset,
+		handleSubmit,
+	} = useForm<ArticleStateType>(currentParams, applyParams);
+
 	const { isOpen, toggle, change } = useDisclosure(initialOpen, {
-		onClose,
+		onClose: handleCancel,
 	});
+
 	const rootRef = useRef<HTMLDivElement>(null);
 	useOutsideClickClose({
 		isOpen,
@@ -49,13 +54,34 @@ export const ArticleParamsForm = <T,>({
 				ref={rootRef}>
 				<form
 					className={styles.form}
-					onSubmit={onSubmit}
-					onReset={onReset}
+					onSubmit={handleSubmit}
+					onReset={handleReset}
 					style={formStyles}>
 					<Text as={'h2'} size={31} weight={800} uppercase>
-						{title}
+						{articleParamsFormTitle}
 					</Text>
-					{fields.map((item, index) => children(item, index))}
+					{articleParamsMap.map((group, index) => (
+						<Fragment key={index}>
+							{index > 0 && <Separator />}
+							{group.map((element) => {
+								const Field = element.type;
+								return (
+									<Field
+										key={element.name}
+										title={element.title}
+										options={element.options}
+										selected={selectedParams[element.name]}
+										name={element.name}
+										onChange={(option) =>
+											handleChange({
+												[element.name]: option,
+											})
+										}
+									/>
+								);
+							})}
+						</Fragment>
+					))}
 
 					<div className={styles.bottomContainer}>
 						<Button title='Сбросить' htmlType='reset' type='clear' />

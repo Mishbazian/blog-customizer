@@ -183,88 +183,55 @@ export const defaultArticleState = {
 
 export type ArticleStateType = typeof defaultArticleState;
 
-/** Переменные стилей управляемые формой */
-export type TArticleStylesProperties =
-	| '--font-family'
-	| '--font-size'
-	| '--font-color'
-	| '--container-width'
-	| '--bg-color';
-
-/** Объект для задания стилей  */
-export type TArticleStylesSheet = Record<TArticleStylesProperties, string>;
-
-/** Дефолтные значения переменных стилей статьи */
-export const defaultArticleStyles: TArticleStylesSheet = {
-	'--font-family': defaultArticleState.fontFamilyOption.value,
-	'--font-size': defaultArticleState.fontSizeOption.value,
-	'--font-color': defaultArticleState.fontColor.value,
-	'--container-width': defaultArticleState.contentWidth.value,
-	'--bg-color': defaultArticleState.backgroundColor.value,
-};
-
 export type ContentGroup = 'top' | 'bottom';
+
 /** Тип объекта определяющего соответствия атрибута стилей и вид используемого компонента, массивов опций группировку и сортировку полей в параметрах настройки Статьи */
-export type TStylesPropertyParam = {
+export type TStylesPropertyParam<T> = {
 	title: string;
-	name: keyof ArticleStateType;
-	property: TArticleStylesProperties;
+	name: keyof T;
 	options: OptionType[];
-	group: ContentGroup;
-	sort: number;
 	type: FunctionComponent<SelectProps> | FunctionComponent<RadioGroupProps>;
 };
 
 /** Массив объектов оответствия атрибута стилей и массивов опций в параметрах настройки Статьи*/
-export type PropertyMap = TStylesPropertyParam[];
-export type ElementsGroup = Record<ContentGroup, TStylesPropertyParam[]>;
+export type PropertyMap<T> = TStylesPropertyParam<T>[];
 /** Константа соответствия атрибутов стилей и массивов опций в параметрах настройки Статьи */
-export const articleParamsMap: PropertyMap = [
-	{
-		title: 'Шрифт',
-		name: 'fontFamilyOption',
-		property: '--font-family',
-		options: fontFamilyOptions,
-		group: 'top',
-		sort: 100,
-		type: Select,
-	},
-	{
-		title: 'рвзмер шрифта',
-		name: 'fontSizeOption',
-		property: '--font-size',
-		options: fontSizeOptions,
-		group: 'top',
-		sort: 200,
-		type: RadioGroup,
-	},
-	{
-		title: 'цвет шрифта',
-		name: 'fontColor',
-		property: '--font-color',
-		options: fontColors,
-		group: 'top',
-		sort: 300,
-		type: Select,
-	},
-	{
-		title: 'цвет фона',
-		name: 'backgroundColor',
-		property: '--bg-color',
-		options: backgroundColors,
-		group: 'bottom',
-		sort: 100,
-		type: Select,
-	},
-	{
-		title: 'ширина контента',
-		name: 'contentWidth',
-		property: '--container-width',
-		options: contentWidthArr,
-		group: 'bottom',
-		sort: 200,
-		type: Select,
-	},
+export const articleParamsMap: PropertyMap<ArticleStateType>[] = [
+	[
+		{
+			title: 'Шрифт',
+			name: 'fontFamilyOption',
+			options: fontFamilyOptions,
+			type: Select,
+		},
+		{
+			title: 'рвзмер шрифта',
+			name: 'fontSizeOption',
+			options: fontSizeOptions,
+
+			type: RadioGroup,
+		},
+		{
+			title: 'цвет шрифта',
+			name: 'fontColor',
+			options: fontColors,
+			type: Select,
+		},
+	],
+	[
+		{
+			title: 'цвет фона',
+			name: 'backgroundColor',
+			options: backgroundColors,
+			type: Select,
+		},
+		{
+			title: 'ширина контента',
+			name: 'contentWidth',
+			options: contentWidthArr,
+			type: Select,
+		},
+	],
 ];
 
 export const articleParamsFormTitle = 'задайте параметры';
