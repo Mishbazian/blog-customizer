@@ -1,13 +1,13 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 
 export const useForm = <T>(
 	currentParams: T,
 	applyParams: (params: T) => void
 ) => {
-	const [initialParams, setInitialParams] = useState<T>(currentParams);
+	const defaultParams = useRef<T>(currentParams);
 
 	const [selectedParams, setSelectedParams] = useState<T>({
-		...initialParams,
+		...defaultParams.current,
 	});
 
 	const handleChange = (changedParams: Partial<T>) => {
@@ -15,26 +15,19 @@ export const useForm = <T>(
 	};
 
 	const handleCancel = () => {
-		setSelectedParams({ ...initialParams });
+		setSelectedParams({ ...currentParams });
 	};
 
 	const handleReset = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		setSelectedParams(() => ({ ...initialParams }));
-		applyParams({ ...initialParams });
+		setSelectedParams({ ...defaultParams.current });
+		applyParams({ ...defaultParams.current });
 	};
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log({ ...selectedParams });
 		applyParams({ ...selectedParams });
 	};
-
-	useEffect(() => {
-		if (initialParams !== currentParams) {
-			setInitialParams(currentParams);
-		}
-	}, [initialParams]);
 
 	return {
 		selectedParams,
