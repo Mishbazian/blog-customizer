@@ -2,7 +2,7 @@ import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 
 import styles from './ArticleParamsForm.module.scss';
-import { Fragment, useRef } from 'react';
+import { CSSProperties, Fragment, useRef } from 'react';
 import clsx from 'clsx';
 import { useOutsideClickClose } from 'src/common/hooks/useOutsideClickClose';
 import { useDisclosure } from 'src/common/hooks/useDisclosure';
@@ -23,7 +23,8 @@ export type TArticleParamsFormProps = {
 
 export const ArticleParamsForm = (props: TArticleParamsFormProps) => {
 	const { initialOpen = false, currentParams, applyParams } = props;
-	const formStyles = { gap: 50 };
+
+	const formStyles: CSSProperties = { gap: 50 };
 
 	const {
 		selectedParams,

@@ -183,20 +183,15 @@ export const defaultArticleState = {
 
 export type ArticleStateType = typeof defaultArticleState;
 
-export type ContentGroup = 'top' | 'bottom';
-
 /** Тип объекта определяющего соответствия атрибута стилей и вид используемого компонента, массивов опций группировку и сортировку полей в параметрах настройки Статьи */
-export type TStylesPropertyParam<T> = {
+export type PropertyMap<T> = {
 	title: string;
 	name: keyof T;
 	options: OptionType[];
 	type: FunctionComponent<SelectProps> | FunctionComponent<RadioGroupProps>;
 };
-
-/** Массив объектов оответствия атрибута стилей и массивов опций в параметрах настройки Статьи*/
-export type PropertyMap<T> = TStylesPropertyParam<T>[];
-/** Константа соответствия атрибутов стилей и массивов опций в параметрах настройки Статьи */
-export const articleParamsMap: PropertyMap<ArticleStateType>[] = [
+/**настроки сгруппированных полей формы */
+export const articleParamsMap: PropertyMap<ArticleStateType>[][] = [
 	[
 		{
 			title: 'Шрифт',
@@ -208,7 +203,6 @@ export const articleParamsMap: PropertyMap<ArticleStateType>[] = [
 			title: 'рвзмер шрифта',
 			name: 'fontSizeOption',
 			options: fontSizeOptions,
-
 			type: RadioGroup,
 		},
 		{
