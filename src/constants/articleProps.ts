@@ -1,3 +1,8 @@
+import { FunctionComponent } from 'react';
+import { RadioGroup, RadioGroupProps } from 'src/ui/radio-group/RadioGroup';
+import { Select } from 'src/ui/select';
+import { SelectProps } from 'src/ui/select/Select';
+
 export const fontFamilyClasses = [
 	'open-sans',
 	'ubuntu',
@@ -177,3 +182,50 @@ export const defaultArticleState = {
 };
 
 export type ArticleStateType = typeof defaultArticleState;
+
+/** Тип объекта определяющего соответствия атрибута стилей и вид используемого компонента, массивов опций группировку и сортировку полей в параметрах настройки Статьи */
+export type PropertyMap<T> = {
+	title: string;
+	name: keyof T;
+	options: OptionType[];
+	type: FunctionComponent<SelectProps> | FunctionComponent<RadioGroupProps>;
+};
+/**настроки сгруппированных полей формы */
+export const articleParamsMap: PropertyMap<ArticleStateType>[][] = [
+	[
+		{
+			title: 'Шрифт',
+			name: 'fontFamilyOption',
+			options: fontFamilyOptions,
+			type: Select,
+		},
+		{
+			title: 'рвзмер шрифта',
+			name: 'fontSizeOption',
+			options: fontSizeOptions,
+			type: RadioGroup,
+		},
+		{
+			title: 'цвет шрифта',
+			name: 'fontColor',
+			options: fontColors,
+			type: Select,
+		},
+	],
+	[
+		{
+			title: 'цвет фона',
+			name: 'backgroundColor',
+			options: backgroundColors,
+			type: Select,
+		},
+		{
+			title: 'ширина контента',
+			name: 'contentWidth',
+			options: contentWidthArr,
+			type: Select,
+		},
+	],
+];
+
+export const articleParamsFormTitle = 'задайте параметры';
